@@ -21,7 +21,7 @@ defmodule Rtracex.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:dialyxir, "~> 1.0"}
+      {:dialyxir, "~> 1.0", runtime: false}
     ]
   end
 end
