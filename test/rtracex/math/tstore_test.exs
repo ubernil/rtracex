@@ -21,4 +21,34 @@ defmodule Rtracex.Math.TstoreTest do
       assert Vector.is_a?(tested)
     end
   end
+
+  describe "Comparing primitives" do
+    test "when they are exactly equal (defined floats are equal and same type)" do
+      tstore1 = {1.0, 2.0, 3.0, :point}
+      tstore2 = {1.0, 2.0, 3.0, :point}
+
+      assert Tstore.eq?(tstore1, tstore2)
+    end
+
+    test "when they are equal up to epsilon and same type (defined floats are almost equal)" do
+      tstore1 = {1.0, 2.0, 3.0, :point}
+      tstore2 = {1.00000000000001, 2.000000000002, 3.0000000000003, :point}
+
+      assert Tstore.eq?(tstore1, tstore2)
+    end
+
+    test "when they are different more then epsilon but have same type" do
+      tstore1 = {1.0, 2.0, 3.0, :point}
+      tstore2 = {1.1, 2.2, 3.3, :point}
+
+      refute Tstore.eq?(tstore1, tstore2)
+    end
+
+    test "when they have diffrent type" do
+      tstore1 = {1.0, 2.0, 3.0, :point}
+      tstore2 = {1.0, 2.0, 3.0, :vector}
+
+      refute Tstore.eq?(tstore1, tstore2)
+    end
+  end
 end

@@ -2,6 +2,7 @@ defmodule Rtracex.Math.Tstore do
   @moduledoc """
   An internal representation of primitive objects such as point an vector.
   """
+  alias Rtracex.Math.Float
 
   @type t :: {
           # X coordinate
@@ -31,4 +32,18 @@ defmodule Rtracex.Math.Tstore do
   """
   @spec z(__MODULE__.t()) :: float()
   def z({_x, _y, coordinate, _type}), do: coordinate
+
+  defp type({_x, _y, _z, type}), do: type
+
+  @doc """
+  Compares two Tstores for equality, consideres that coordinates can be almost equal as floats.
+  In case of difference in coordinates is less than predifined machine epsilone returns true.
+  """
+  @spec eq?(__MODULE__.t(), __MODULE__.t()) :: boolean()
+  def eq?(tstore1, tstore2) do
+    type(tstore1) == type(tstore2) and
+      Float.eq?(x(tstore1), x(tstore2)) and
+      Float.eq?(y(tstore1), y(tstore2)) and
+      Float.eq?(z(tstore1), z(tstore2))
+  end
 end
